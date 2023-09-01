@@ -27,7 +27,7 @@ public class DarkModeController {
 //    }
 
     @GetMapping("/cars")
-    public ResponseDTO getCars(@RequestHeader(value = "darkmode", required = false) Boolean darkModePreference) {
+    public ResponseDTO getCars(@CookieValue(name = "darkmode", required = false) Boolean darkModePreference) {
         boolean darkMode = darkModePreference != null ? darkModePreference : false;
         List<CarsDTO> cars = darkModeService.getCarsDTO();
 
@@ -43,7 +43,6 @@ public class DarkModeController {
         darkModeService.setDarkMode(darkModeDTO.isDarkMode());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", "darkmode=" + darkModeDTO.isDarkMode());
-        System.out.println(darkModeDTO.isDarkMode());
         return ResponseEntity.ok().headers(headers).build();
 
     }
